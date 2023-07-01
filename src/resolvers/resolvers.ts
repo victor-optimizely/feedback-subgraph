@@ -1,6 +1,5 @@
 import { GraphQLScalarType, Kind } from 'graphql'
-import { HelloResolvers } from './hello.resolvers.js'
-import { ProductResolvers } from "./product.resolvers.js";
+import { UserResolvers } from "./User.resolvers.js";
 
 export const resolvers = [
     {
@@ -25,7 +24,6 @@ export const resolvers = [
             },
         }),
     },
-    ProductResolvers,
-    HelloResolvers, // remove sample
+    UserResolvers,
     // insert imported resolvers
 ]

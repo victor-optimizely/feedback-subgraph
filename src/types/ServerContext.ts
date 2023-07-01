@@ -1,7 +1,8 @@
-import { ProductsDataSource } from "../datasources/Products.datasource.js";
+import { UsersDataSource } from "../datasources/Users.datasource";
 
 export interface ServerContext {
+    token?: string,
     dataSources: {
-        products: ProductsDataSource;
+        users: UsersDataSource;
     };
 }

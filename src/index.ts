@@ -1,6 +1,6 @@
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { createApolloServer } from './server.js'
-import { ProductsDataSource } from "./datasources/Products.datasource.js";
+import { UsersDataSource } from "./datasources/Users.datasource.js";
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
@@ -11,11 +11,13 @@ const server = createApolloServer()
 //  2. installs your ApolloServer instance as middleware
 //  3. prepares your app to handle incoming requests
 const { url } = await startStandaloneServer(server, {
-    context: async () => {
+    context: async ({ req, res }) => {
         const { cache } = server;
+        const token = (req.headers.authorization ||"").replace(`Bearer `, '')
         return {
+            token,
             dataSources: {
-                products: new ProductsDataSource({ cache })
+                users: new UsersDataSource({ cache, token })
             }
         }
     },
