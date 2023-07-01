@@ -1,13 +1,3 @@
-# Apollo Server Template
-
-A simple Apollo Server template setup to work with Typescript.
-
-### Features
-
-✅ Suggested File Structure  
-✅ Sample Query  
-✅ Sample Mutation  
-✅ Jest configuration with [supertest](https://www.npmjs.com/package/supertest)
 
 ### Contents
 

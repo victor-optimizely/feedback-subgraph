@@ -1,3 +1,4 @@
+
 import { ServerContext } from '../types/ServerContext'
 
 export const HelloResolvers = {
@@ -7,7 +8,7 @@ export const HelloResolvers = {
             { name }: { name?: string },
             context: ServerContext
         ) => {
-            const greet = name || context.name || 'World'
+            const greet = name ||  'World'
             return `Hello ${greet}!`
         },
     },
@@ -18,7 +19,7 @@ export const HelloResolvers = {
             context: ServerContext
         ) => {
             // sample only, does nothing
-            context.name = name
+
             return name
         },
     },

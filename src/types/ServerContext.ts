@@ -1,3 +1,7 @@
+import { ProductsDataSource } from "../datasources/Products.datasource.js";
+
 export interface ServerContext {
-    name: string
+    dataSources: {
+        products: ProductsDataSource;
+    };
 }
