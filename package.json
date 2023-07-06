@@ -1,7 +1,7 @@
 {
-    "name": "apollo-server-template",
+    "name": "@victor-optimizely/turnstiles-users-graph",
     "version": "0.0.1",
-    "description": "Apollo Server Template",
+    "description": "Turnstile users subgraph.",
     "main": "index.js",
     "scripts": {
         "test": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
