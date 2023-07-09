@@ -1,5 +1,5 @@
 import { GraphQLScalarType, Kind } from 'graphql'
-import { UserResolvers } from "./User.resolvers.js";
+import { FeedbackResolvers } from "./Feedback.resolvers.js";
 
 export const resolvers = [
     {
@@ -24,6 +24,5 @@ export const resolvers = [
             },
         }),
     },
-    UserResolvers,
-    // insert imported resolvers
+    FeedbackResolvers,
 ]

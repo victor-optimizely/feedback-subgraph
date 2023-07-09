@@ -1,6 +1,11 @@
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { createApolloServer } from './server.js'
-import { UsersDataSource } from "./datasources/Users.datasource.js";
+import { FeedbackDataSource } from "./datasources/Feedback.datasource.js";
+import { MongoClient } from "mongodb";
+
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@hackdays-cluster.fbm6cym.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri)
+client.connect();
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
@@ -17,11 +22,13 @@ const { url } = await startStandaloneServer(server, {
         return {
             token,
             dataSources: {
-                users: new UsersDataSource({ cache, token })
+                feedback: new FeedbackDataSource(client.db().collection('feedback'))
             }
         }
     },
-    listen: { port: 8080 },
+    listen: { port: process.env.PORT ? +process.env.PORT : 8080 },
 })
 
 console.log(`🚀  Server ready at: ${url}`)
+
+

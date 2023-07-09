@@ -1,12 +1,11 @@
 import { queries } from './queries.js'
-import { UserType } from "./User.type.js";
-import { GenericPropertyType } from "./GenericProperty.type.js";
-import { UserPageType } from "./UserPage.type.js";
-
+import { FeedbackType } from "./Feedback.type.js";
+import { FeedbackPageType } from "./FeedbackPage.type.js";
+import { mutations } from "./mutations.js";
 export const typeDefinitions = [
     `scalar Date`,
-    GenericPropertyType,
-    UserType,
-    UserPageType,
-    queries
+    FeedbackType,
+    FeedbackPageType,
+    queries,
+    mutations
 ]
