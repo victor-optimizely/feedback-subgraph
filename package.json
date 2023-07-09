@@ -6,6 +6,7 @@
     "scripts": {
         "test:fix-me": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "compile": "tsc",
+        "build": "npm run docker:build:manual",
         "docker:run": "docker run -ti common-services/feedback-subgraph:local sh",
         "start": "npm run compile && node ./dist/index.js",
         "docker:build:manual": "az acr build --registry epiIdentityContainerRegistry --image common-services/feedback-subgraph ."
