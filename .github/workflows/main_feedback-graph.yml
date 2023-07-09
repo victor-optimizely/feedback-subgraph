@@ -34,7 +34,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: epiidentitycontainerregistry.azurecr.io/${{ USERNAME_LC }}/common-services/feedback-subgraph:${{ github.sha }}
+        tags: epiidentitycontainerregistry.azurecr.io/${{ env.USERNAME_LC }}/common-services/feedback-subgraph:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
