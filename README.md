@@ -10,3 +10,9 @@
 -   `index.ts`: Where the magic happens. This creates a server instance and invokes the listener.
 
 `/tests`: Includes spec files for tests.
+
+
+### TODO
+- [ ] change to docker application
+- [ ] fix tests
+- [ ] hook up additional queries

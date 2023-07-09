@@ -6,9 +6,9 @@
     "scripts": {
         "test:fix-me": "npm run compile && node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "compile": "tsc",
-        "docker:build": "docker build -t common-services/feedback-graph:local .",
-        "docker:run": "docker run -ti common-services/feedback-graph:local sh",
-        "start": "npm run compile && node ./dist/index.js"
+        "docker:run": "docker run -ti common-services/feedback-subgraph:local sh",
+        "start": "npm run compile && node ./dist/index.js",
+        "docker:build:manual": "az acr build --registry epiIdentityContainerRegistry --image common-services/feedback-subgraph ."
     },
     "type": "module",
     "author": "Compubility",

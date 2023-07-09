@@ -25,12 +25,16 @@ jobs:
         registry: https://epiidentitycontainerregistry.azurecr.io/
         username: ${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}
         password: ${{ secrets.AzureAppService_ContainerPassword_33e58d7f8b9b45278e5c13aa4deb25ce }}
-
+    - name: set lower case username
+      run: |
+        echo "USERNAME_LC=${OWNER,,}" >>${GITHUB_ENV}
+      env:
+        OWNER: '${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}'
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: epiidentitycontainerregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}/common-services/feedback-subgraph:${{ github.sha }}
+        tags: epiidentitycontainerregistry.azurecr.io/${{ USERNAME_LC }}/common-services/feedback-subgraph:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
