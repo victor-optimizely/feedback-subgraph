@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - feedback-graph
+name: Build and deploy container app to Azure Web App - feedback-graph
 
 on:
   push:
@@ -11,46 +11,41 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-latest'
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: '18.x'
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://epiidentitycontainerregistry.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_33e58d7f8b9b45278e5c13aa4deb25ce }}
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
-          path: .
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: epiidentitycontainerregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}/common-services/feedback-subgraph:${{ github.sha }}
+        file: ./Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: node-app
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'feedback-graph'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12F81AA994B44C12BA0250C8ECB0099F }}
-          package: .
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'feedback-graph'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ab2ed24b8650469d8b20018a31078fc3 }}
+        images: 'epiidentitycontainerregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_734ba69da6b14d4cac473c89a5b8488c }}/common-services/feedback-subgraph:${{ github.sha }}'
