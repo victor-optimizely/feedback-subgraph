@@ -41,16 +41,28 @@ export class FeedbackDataSource extends MongoDataSource<any> {
         return result.modifiedCount > 0;
     }
 
-    async getPaginatedFeedback({ pageSize = 20, page = 1, sortBy = "createdAt" }: {  pageSize: number, page: number, sortBy?: string }): Promise<Feedback[]> {
+    async getPaginatedFeedback({ pageSize = 20, page = 1, sortBy = "createdAt" }: {  pageSize: number, page: number, sortBy?: string }): Promise<any> {
         const skip = (page - 1) * pageSize;
         const sortOptions: Sort = { [sortBy]: -1 }; // Sort in descending order based on the specified field
-
-        return this.collection
+        const total = await this.collection.countDocuments();
+        const pages = Math.ceil(total / pageSize);
+        const hasMore = page !== pages;
+        const results = await this.collection
             .find()
             .sort(sortOptions)
             .skip(skip)
             .limit(pageSize)
             .toArray();
+        console.log({ results });
+        return {
+            pagination: {
+                hasMore,
+                total,
+                pages,
+                pageSize
+            },
+            results
+        };
     }
 }
 

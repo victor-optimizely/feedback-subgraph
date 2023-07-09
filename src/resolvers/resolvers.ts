@@ -1,8 +1,13 @@
 import { GraphQLScalarType, Kind } from 'graphql'
 import { FeedbackResolvers } from "./Feedback.resolvers.js";
+import { ObjectId } from "mongodb";
 
 export const resolvers = [
     {
+        Feedback: {
+            id: (parent) => parent._id.toString(),
+            created: (parent) => new ObjectId(parent._id).getTimestamp()
+        },
         Date: new GraphQLScalarType({
             name: 'Date',
             description: 'Date custom scalar type',
